@@ -1,0 +1,21 @@
+.dashboard{
+    display:  flex;
+    flex-direction: column;
+
+    .top{
+        font-size: 1.5rem;
+        padding: 1rem 3rem 1rem 3rem;
+    }
+    .bottom{
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        padding: 1rem 3rem 1rem 3rem;
+
+        .right{
+            display: flex;
+            gap: 50px;
+        }
+    
+    }
+}
