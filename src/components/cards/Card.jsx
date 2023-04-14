@@ -4,11 +4,11 @@ import './card.scss'
 import Dashboard from "../dashboard/Dashboard";
 import { useDispatch } from "react-redux";
 import { addToCart } from "./cartSlice";
-import { useSelector } from "react-redux";
+
 
 
 function Cards() {
-  const products = useSelector(state=>state.cart.products)
+
 
   const dispach =useDispatch()
 
