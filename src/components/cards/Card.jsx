@@ -2,8 +2,16 @@ import React, { useState, useEffect } from "react";
 import data from '../../assets/heliverse_mock_data.json';
 import './card.scss'
 import Dashboard from "../dashboard/Dashboard";
+import { useDispatch } from "react-redux";
+import { addToCart } from "./cartSlice";
+import { useSelector } from "react-redux";
+
 
 function Cards() {
+  const products = useSelector(state=>state.cart.products)
+
+  const dispach =useDispatch()
+
   const [cardsData, setCardsData] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedGender, setSelectedGender] = useState('');
@@ -50,6 +58,8 @@ function Cards() {
   const currentCards = filteredCards.slice(indexOfFirstCard, indexOfLastCard);
   const totalPages = Math.ceil(filteredCards.length / cardsPerPage);
 
+
+
   const handlePageClick = (pageNumber) => {
     setCurrentPage(pageNumber);
   };
@@ -57,15 +67,29 @@ function Cards() {
 
   return (
     <>
-      <Dashboard onChange={handleSearch} gender={handleGenderFilter} available={handleAvailablity} domain={handleDomain}/>
+      <Dashboard 
+      onChange={handleSearch} 
+      gender={handleGenderFilter} 
+      available={handleAvailablity} domain={handleDomain}/>
+
       <div className="cards">
         {currentCards.map((card) => (
           <div key={card.id} className="card">
+            <img src={card.avatar} alt="" />
             <h2>{card.first_name} {card.last_name}</h2>
             <p>{card.gender}</p>
-            <p>{card.domain}</p>
-            <p>{`${card.available? 'available' : 'not available'}`}</p>
-            {card.available && (<button>Add to team</button>)}
+            <p><span>Domain: </span> {card.domain}</p>
+            <p><span>Mail: </span> {card.email}</p>
+            <p><span>Status: </span> {`${card.available? 'available' : 'not available'}`}</p>
+            {card.available && (<button className="btn" onClick={()=>dispach(addToCart({
+              id: card.id,
+              firstName: card.first_name,
+              lastName: card.last_name,
+              image: card.avatar,
+              email: card.email,
+              domain: card.domain
+            }
+            ))}>Add to team</button>)}
           </div>
         ))}
       </div>
