@@ -1,14 +1,12 @@
 import './App.css'
-import Dashboard from './components/dashboard/Dashboard'
-import Card from './components/cards/Card'
+import Main from './components/Main'
 
 function App() {
 
 
   return (
     <div className="App">
-      <Dashboard/>
-      <Card/>
+    <Main/>
     </div>
   )
 }
