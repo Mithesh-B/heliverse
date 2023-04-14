@@ -1,0 +1,64 @@
+.team{
+    position: absolute;
+    z-index: 1;
+    top: 5.6rem;
+    right: 2.7rem;
+    box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;
+    border-radius: 10px;
+
+    
+
+    .teamContent{
+    position: relative;
+    background-color: rgb(245, 245, 245);
+    height: 400px;
+    width: 400px;
+    font-weight: 700;
+    z-index: 77;
+    padding: 1rem 0rem 1rem 1rem;
+  
+    .content{
+        margin: 1rem 1rem 1rem 0rem;
+        display: flex;
+        justify-content: space-between;
+        padding: 0.5rem;
+        border: 2px solid;
+        border-color: rgb(221, 221, 221);
+        border-radius: 5px;
+        font-weight: 400;
+
+        .left{
+            display: flex;
+            font-size: 1rem;
+            flex-direction: column;
+            .name{
+                font-weight: 600;
+            }
+            .email,.domain{
+                font-size: 0.9rem;
+            }
+        }
+        .right{
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: center;
+
+            img{
+                width:30px;
+                height: 30px;
+                border-radius: 100px;
+            }
+            button{
+                border: none;
+                border-radius: 5px;
+                background-color: rgb(216, 216, 216);
+                padding: 0.3rem;
+                cursor: pointer;
+            }
+        }
+    }
+    
+    
+    }
+}
