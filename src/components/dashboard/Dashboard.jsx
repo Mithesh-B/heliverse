@@ -1,28 +1,37 @@
-import React from 'react'
+import React, {useState} from 'react'
+import Team from './Team'
 
 import './dashboard.scss'
 
 const Dashboard = ({onChange, gender, available, domain}) => {
+  const [showTeam, setShowTeam] = useState(false);
 
-
+  const handleClick = () => {
+    setShowTeam(!showTeam);
+  };
 
 
   return (
     <div className='dashboard'>
-      <div className="top"><h1>Team Up</h1></div>
+      <div className="top"><h1>Team Up</h1>
+      <div className="myTeam" onClick={handleClick}><img src="https://fastly.picsum.photos/id/866/200/300.jpg?hmac=rcadCENKh4rD6MAp6V_ma-AyWv641M4iiOpe1RyFHeI" alt="" /> My Team</div>
+        {showTeam && <Team />}
+      </div>
       <div className="bottom">
         <div className="left">
-            <div className="search"><input type="text" onChange={onChange} /></div>
+            <div className="search"><input type="text" placeholder='search...' onChange={onChange} /></div>
         </div>
         <div className="right">
           <div>
             <div className="filter">
-              <label htmlFor="gender-select">Gender:</label>
+              <label></label>
                   <select
                     id="gender-select"
-        
                     onChange={gender}
+                    defaultValue={'default'}
+                    
                   >
+                    <option value="default" disabled hidden>gender</option>
                     <option value="">All</option>
                     <option value="Male">Male</option>
                     <option value="Female">Female</option>
@@ -31,12 +40,13 @@ const Dashboard = ({onChange, gender, available, domain}) => {
           </div>
           <div>
           <div className="available">
-              <label htmlFor="gender-select">Availability:</label>
+              <label></label>
                   <select
-                    id="gender-select"
-        
+                   defaultValue={'default'}
+                    id="availibility-select"
                     onChange={available}
                   >
+                    <option value="default" disabled hidden>availability</option>
                     <option value="">All</option>
                     <option value="true">Available</option>
                     <option value="false">Unavailable</option>
@@ -45,12 +55,13 @@ const Dashboard = ({onChange, gender, available, domain}) => {
           </div>
           <div>
           <div className="domain">
-              <label htmlFor="gender-select">Domain:</label>
+              <label></label>
                   <select
-                    id="gender-select"
-        
+                    defaultValue={'default'}
+                    id="domain-select"
                     onChange={domain}
                   >
+                    <option value="default" disabled hidden>domain</option>
                     <option value="">All</option>
                     <option value="Sales">Sales</option>
                     <option value="Finance">Finance</option>
@@ -62,7 +73,6 @@ const Dashboard = ({onChange, gender, available, domain}) => {
                   </select>
                 </div>
           </div>
-            <div className="team">My Team</div>
         </div>
       </div>
     </div>
