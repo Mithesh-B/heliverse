@@ -11,8 +11,10 @@
     .teamContent{
     position: relative;
     background-color: rgb(245, 245, 245);
-    height: 400px;
-    width: 400px;
+   
+    width: 300px;
+    min-height: 150px;
+    max-height: 400px;
     font-weight: 700;
     z-index: 77;
     padding: 1rem 0rem 1rem 1rem;
