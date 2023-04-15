@@ -9,7 +9,7 @@ import { addToCart } from "./cartSlice";
 
 function Cards() {
 
-
+  //  dispaches data to redux global state
   const dispach =useDispatch()
 
   const [cardsData, setCardsData] = useState([]);
@@ -52,7 +52,7 @@ function Cards() {
   && (selectedGender === '' || card.gender === selectedGender) && (isAvailable === '' || card.available === (isAvailable === 'true'))
   && (domain === '' || card.domain === domain)
   );
-
+  //pagination
   const indexOfLastCard = currentPage * cardsPerPage;
   const indexOfFirstCard = indexOfLastCard - cardsPerPage;
   const currentCards = filteredCards.slice(indexOfFirstCard, indexOfLastCard);

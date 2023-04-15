@@ -4,6 +4,7 @@ import { useSelector, useDispatch } from 'react-redux'
 import { removeItem } from '../cards/cartSlice'
 
 const Team = () => {
+  //get data from redux global state and populate the cart
     const products = useSelector(state=>state.cart.products)
     const dispach =useDispatch()
 

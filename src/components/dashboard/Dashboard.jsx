@@ -5,7 +5,7 @@ import './dashboard.scss'
 
 const Dashboard = ({onChange, gender, available, domain}) => {
   const [showTeam, setShowTeam] = useState(false);
-
+//handles cart visibility on click
   const handleClick = () => {
     setShowTeam(!showTeam);
   };
