@@ -35,6 +35,13 @@ const Dashboard = ({onChange, gender, available, domain}) => {
                     <option value="">All</option>
                     <option value="Male">Male</option>
                     <option value="Female">Female</option>
+                    <option value="Agender">Agender</option>
+                    <option value="Bigender">Bigender</option>
+                    <option value="Polygender">Polygender</option>
+                    <option value="Non-binary">Non-binary</option>
+                    <option value="Genderqueer">Genderqueer</option>
+                    <option value="Genderfluid">Genderfluid</option>
+
                   </select>
                 </div>
           </div>
