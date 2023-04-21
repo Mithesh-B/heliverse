@@ -1,0 +1,58 @@
+form {
+  max-width: 600px;
+  margin: 0 auto;
+
+  div{
+    margin-bottom: 20px;
+
+    label {
+      display: inline-block;
+      width: 15vw;
+      margin-right: 10px;
+      font-size: 1rem;
+    }
+
+    input {
+      width: 100%;
+      padding: 10px;
+      border-radius: 5px;
+      font-size: 0.9rem;
+      background-color: #1d1d1d;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      color: #fff;
+
+      &:focus {
+        outline: none;
+        border-color: #f1f1f1;
+      }
+    }
+  }
+
+  .submit {
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    background-color: #1dd890;
+    font-weight: 500;
+    border-radius: 0.25rem;
+    font-size: 1rem;
+    padding: 0px 10px 0px 10px;
+    box-shadow: rgba(0, 0, 0, 0.02) 0 1px 3px 0;
+    box-sizing: border-box;
+    color: rgba(15, 15, 15, 0.85);
+    padding: 5px 15px;
+    cursor: pointer;
+  }
+}
+
+button {
+  background-color: transparent;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  font-size: 20px;
+}
+.on {
+  color: #ffd900;
+}
+.off {
+  color: #ccc;
+}

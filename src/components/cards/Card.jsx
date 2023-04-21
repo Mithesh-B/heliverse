@@ -1,98 +1,120 @@
 import React, { useState, useEffect } from "react";
-import data from '../../assets/heliverse_mock_data.json';
 import './card.scss'
 import Dashboard from "../dashboard/Dashboard";
-import { useDispatch } from "react-redux";
-import { addToCart } from "./cartSlice";
+import { useSelector} from 'react-redux'
+import Form from "./Form";
+
 
 
 
 function Cards() {
-
-  //  dispaches data to redux global state
-  const dispach =useDispatch()
-
-  const [cardsData, setCardsData] = useState([]);
-  const [searchTerm, setSearchTerm] = useState('');
-  const [selectedGender, setSelectedGender] = useState('');
-  const [isAvailable, setIsAvailable]=useState('')
-  const [domain, setDomain] =useState ('')
+  //state to show and hide form onclick
+  const [showForm, setShowForm] = useState(false);
+  const [selectedCard, setSelectedCard] = useState(null);
+  //state for pagination
   const [currentPage, setCurrentPage] = useState(1);
-  const cardsPerPage = 20;
+  const cardsPerPage = 9;
+  //state for ***** rating
+  const rating = useSelector(state=>state.cart.products)
+  //state for handeling OMDB data
+  const [cardsData, setCardsData] = useState();
+  //search input state handeling
+  const [searchTerm, setSearchTerm] = useState('');
+  const [displayText, setDisplayText] = useState('');
 
   //to fetch data from json
-
   useEffect(() => {
-    setCardsData(data);
-  }, []);
-  //handles search function
+    if (displayText) { // Only fetch data if searchTerm is not empty
+      fetch(`https://www.omdbapi.com/?s=${displayText}&apikey=dd69d14d`)
+        .then(response => response.json())
+        .then(data => setCardsData(data))
+        .catch(error => console.error(error));
+    }
+  }, [displayText]);
+
+  //handles search input
   const handleSearch = (event) => {
     setSearchTerm(event.target.value);
     setCurrentPage(1);
+
   };
-  //handles gender filtering
-  const handleGenderFilter = (event) => {
-    setSelectedGender(event.target.value);
+  //handles search click
+  const handleClick = () => {
+    setDisplayText(searchTerm);
     setCurrentPage(1);
   };
-  //handles availability check
-  const handleAvailablity = (event) => {
-    setIsAvailable(event.target.value);
+  //handle booking button
+  const handleButtonClick = (card) => {
+    //shows form and sends card data as props to form child.
+    setSelectedCard(card);
+    setShowForm(true);
     setCurrentPage(1);
   };
-  //handles domain filtering
-  const handleDomain = (event) => {
-    setDomain(event.target.value);
+  //hides form on button click
+  const hideForm =()=>{
+    setShowForm(false)
     setCurrentPage(1);
-  };
-  //filters data based on above handle events dynaically
-  const filteredCards = cardsData.filter((card) =>
-  //filters name search using includes method on data
-  card.first_name.toLowerCase().includes(searchTerm.toLowerCase())
-  && (selectedGender === '' || card.gender === selectedGender) && (isAvailable === '' || card.available === (isAvailable === 'true'))
-  && (domain === '' || card.domain === domain)
-  );
-  //pagination
-  const indexOfLastCard = currentPage * cardsPerPage;
-  const indexOfFirstCard = indexOfLastCard - cardsPerPage;
-  const currentCards = filteredCards.slice(indexOfFirstCard, indexOfLastCard);
-  const totalPages = Math.ceil(filteredCards.length / cardsPerPage);
-
-
-
-  const handlePageClick = (pageNumber) => {
-    setCurrentPage(pageNumber);
-  };
-
-
+  }
+    //pagination
+    const indexOfLastCard = currentPage * cardsPerPage;
+    const indexOfFirstCard = indexOfLastCard - cardsPerPage;
+    const currentCards = cardsData?.Search?.slice(indexOfFirstCard, indexOfLastCard);
+    const totalPages = Math.ceil(cardsData?.Search.length / cardsPerPage);
+    //pagination button backward and forward
+    const handlePageClick = (pageNumber) => {
+      setCurrentPage(pageNumber);
+    };
+    console.log(cardsData)
   return (
     <>
       <Dashboard 
-      onChange={handleSearch} 
-      gender={handleGenderFilter} 
-      available={handleAvailablity} domain={handleDomain}/>
+      onChange={handleSearch} click={handleClick}/>
+      <div className="cards-container">
 
-      <div className="cards">
-        {currentCards.map((card) => (
-          <div key={card.id} className="card">
-            <img src={card.avatar} alt="" />
-            <h2>{card.first_name} {card.last_name}</h2>
-            <p>{card.gender}</p>
-            <p><span>Domain: </span> {card.domain}</p>
-            <p><span>Mail: </span> {card.email}</p>
-            <p><span>Status: </span> {`${card.available? 'available' : 'not available'}`}</p>
-            {card.available && (<button className="btn" onClick={()=>dispach(addToCart({
-              id: card.id,
-              firstName: card.first_name,
-              lastName: card.last_name,
-              image: card.avatar,
-              email: card.email,
-              domain: card.domain
-            }
-            ))}>Add to team</button>)}
+        {currentCards?.map(card => (
+
+          <div key={card.imdbID} className="card">
+            <div className="booking" ><img src={card.Poster} alt={card.Title} />
+
+            {rating
+              .filter((item) => item.imdbID === card.imdbID)
+              .map((item) => (
+              <div key={item.imdbID} className="content">
+                <div>{[...Array(5)].map((star, index) => {
+                  index += 1;
+                  return (
+                  <button
+                    type="button"
+                    key={index}
+                    className={index <= (item.rating) ? "on" : "off"}
+                  >
+                    <span className="star">&#9733;</span>
+                  </button>
+                  );
+              })}
+                </div>
+              </div>
+            ))}
+            <button onClick={() => handleButtonClick(card)} className="booking_btn">book movie</button>
+          </div>
+            <h3>{card.Title}</h3>
+            <p>Released: {card.Year}</p>
+            <p>Type: {card.Type}</p>
           </div>
         ))}
+
       </div>
+      {showForm && (
+        <div className="modal">
+          <div className="modal-content">
+            <Form onCloseForm={() => setShowForm(false)}   
+            imdbID={selectedCard.imdbID}
+            poster={selectedCard.Poster}
+            title={selectedCard.Title} />
+              <button className="close" onClick={hideForm}>close</button>
+          </div>
+        </div>
+      )}
       <div className="pagination">
         <button
           disabled={currentPage === 1}
@@ -100,7 +122,7 @@ function Cards() {
         >
           Previous
         </button>
-        <span>Page {currentPage} of {totalPages}</span>
+        <span>Page {currentPage} of {totalPages? totalPages : 1}</span>
         <button
           disabled={currentPage === totalPages}
           onClick={() => handlePageClick(currentPage + 1)}

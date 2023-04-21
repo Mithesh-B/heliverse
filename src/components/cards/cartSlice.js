@@ -10,22 +10,12 @@ export const cartSlice = createSlice({
   initialState,
   reducers: {
     addToCart: (state, action)=>{
-      //prevents duplicate items and adding from same domain
-    const item = state.products.find(item=>item.id === action.payload.id)
-    const domain = state.products.find(item=>item.domain ===action.payload.domain)
+      state.products.push(action.payload)
     
-    if(item){
-      alert('you cannot add same user twice.')
-    } else if(domain){
-      alert('you cannot add multiple users from same domain.')
-    }
-    else{
-        state.products.push(action.payload)
-    }
     },
     //remove item from cart
     removeItem: (state,action)=>{
-        state.products= state.products.filter(item=> item.id !== action.payload)
+        state.products= state.products.filter(item=> item.imdbID !== action.payload)
     },
     //remove all item from cart
     resetCart: (state)=>{

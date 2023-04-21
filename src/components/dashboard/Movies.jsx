@@ -1,28 +1,30 @@
 import React from 'react'
-import './team.scss'
+import './movies.scss'
 import { useSelector, useDispatch } from 'react-redux'
 import { removeItem } from '../cards/cartSlice'
 
-const Team = () => {
+const Movies = () => {
   //get data from redux global state and populate the cart
     const products = useSelector(state=>state.cart.products)
     const dispach =useDispatch()
 
 
   return (
-    <div className='team'>
+    <div className='my_movies'>
       <div className="teamContent">
-        My team
+        My movies
         {products.map((item)=>(
-            <div key={item.id} className='content'>
+            <div key={item.imdbID} className='content'>
                 <div className="left">
-                    <div className='name'>{item.firstName} {item.lastName}</div>
-                    <div className='email'>{item.email}</div>
-                    <div className='domain'>{item.domain}</div>
+                    <div className='name'>{item.title}</div>
+                    <div className='date'>{item.date}</div>
+                    <div className='email'>{item.name}</div>
+                    <button className='remove' onClick={()=>dispach(removeItem(item.imdbID))}>remove</button>
                 </div>
                 <div className="right">
-                    <img src={item.image} alt="" />
-                    <button onClick={()=>dispach(removeItem(item.id))}>remove</button>
+      
+                    <img src={item.poster} alt="" />
+                    
                 </div>
             </div>
         ))}
@@ -32,4 +34,4 @@ const Team = () => {
   )
 }
 
-export default Team
+export default Movies
